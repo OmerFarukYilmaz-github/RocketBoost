@@ -9,6 +9,10 @@ public class Movement : MonoBehaviour
     [SerializeField] float thrustPower = 1000f;
     [SerializeField] float rotationPower = 100f;
 
+    [SerializeField] ParticleSystem mainJetParticles;
+    [SerializeField] ParticleSystem rightJetParticles;
+    [SerializeField] ParticleSystem leftJetParticles;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,12 +31,18 @@ public class Movement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
+            rightJetParticles.Play();
             Rotate(Vector3.forward);
         }
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
+            leftJetParticles.Play();
             Rotate(Vector3.back);
-
+        }
+        else
+        {
+            leftJetParticles.Stop();
+            rightJetParticles.Stop();
         }
     }
 
@@ -48,7 +58,12 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
+            mainJetParticles.Play();
             rocketRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * thrustPower);
+        }
+        else
+        {
+            mainJetParticles.Stop();
         }
 
     }
